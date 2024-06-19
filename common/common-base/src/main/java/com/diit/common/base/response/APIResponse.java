@@ -1,6 +1,5 @@
 package com.diit.common.base.response;
 
-import com.diit.common.base.exception.ToolCenterException;
 import lombok.Data;
 
 import java.util.Date;

@@ -1,0 +1,25 @@
+keytool -genkey -alias jwt -keyalg RSA -Keysize 1024 -keystore jwt.jks -validity 365
+输入密钥库口令:  123456
+再次输入新口令:  123456
+您的名字与姓氏是什么?
+  [Unknown]:  yu jun xin
+您的组织单位名称是什么?
+  [Unknown]:
+您的组织名称是什么?
+  [Unknown]:  111
+您所在的城市或区域名称是什么?
+  [Unknown]:  111
+您所在的省/市/自治区名称是什么?
+  [Unknown]:  111
+该单位的双字母国家/地区代码是什么?
+  [Unknown]:  111
+CN=yu jun xin, OU=Unknown, O=111, L=111, ST=111, C=111是否正确?
+  [否]:  是
+
+输入 <jwt> 的密钥口令
+	(如果和密钥库口令相同, 按回车):  123456
+再次输入新口令: 123456
+
+Warning:
+生成的证书 uses a 1024 位 RSA 密钥 which is considered a security risk. This key size will be disabled in a future update.
+JKS 密钥库使用专用格式。建议使用 "keytool -importkeystore -srckeystore jwt.jks -destkeystore jwt.jks -deststoretype pkcs12" 迁移到行业标准格式 PKCS12。
