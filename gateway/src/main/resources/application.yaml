@@ -1,0 +1,32 @@
+# 服务端口
+server:
+  port: 9900
+
+spring:
+  application:
+    # 服务名称
+    name: gateway
+#  main:
+#    #   Description:
+#    #   Spring MVC found on classpath, which is incompatible with Spring Cloud Gateway.
+#    #   Action:
+#    #   Please set spring.main.web-application-type=reactive or remove spring-boot-starter-web dependency.
+#    #上述错误表明 SpringBoot 与 SpringCloud Gateway 不兼容， 设置属性为reactive 告诉Spring Boot使用响应式Web应用程序类型，与Spring Cloud Gateway兼容。
+#    web-application-type: reactive  #
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.9.30.138:8848
+      config:
+        server-addr: 192.9.30.138:8848 #Nacos作为配置中心地址
+        file-extension: yaml #指定yaml格式的配置
+    gateway:
+      routes: # 网关路由配置
+        - id: service-tool # 路由ID，自定义填写，唯一即可
+          # uri 有两种配置方法，一种 http ，一种 lb:服务名称
+          # uri: http://127.0.0.1:18088/  # 路由目标地址
+          uri: lb://service-tool # 路由的目标地址 lb 就是负载均衡，后边跟服务名称
+          predicates: #路由断言 ，白话就是判断请求符不符合路由规则条件
+            - Path=/tool/** # 这个是按照路径匹配，只要以 /tool/ 开头就符合条件
+

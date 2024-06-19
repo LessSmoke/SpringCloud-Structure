@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration= \
+  com.diit.common.mybatis.config.MybatisPlusConfiguration \
+  com.diit.common.mybatis.handler.MybatisObjectHandler
