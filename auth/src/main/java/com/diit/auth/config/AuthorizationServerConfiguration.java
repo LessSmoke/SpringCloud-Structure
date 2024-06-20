@@ -26,6 +26,12 @@ import org.springframework.util.CollectionUtils;
 import java.security.KeyPair;
 import java.util.*;
 
+/**
+ *@description: 鉴权服务器配置类
+ *@author:     yujunxin
+ *@createTime: 2024/6/20 9:04
+ *@version:    1.0
+ */
 @Configuration
 @EnableAuthorizationServer
 @RequiredArgsConstructor

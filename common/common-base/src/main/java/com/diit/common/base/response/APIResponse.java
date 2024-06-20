@@ -35,8 +35,7 @@ public class APIResponse {
         this.timestamp = (new Date()).getTime();
     }
 
-    public APIResponse(IResponseCode responseCode, String msg) {
-        this.code = responseCode.getCode();
+    public APIResponse(Integer code, String msg) {
         this.msg = msg;
         this.trace = msg;
         this.timestamp = (new Date()).getTime();
@@ -49,21 +48,14 @@ public class APIResponse {
     }
 
     public APIResponse(IResponseCode responseCode, String msg, Object data) {
-        this(responseCode);
+        this.code = responseCode.getCode();
         this.trace = msg;
         this.data = data;
         this.timestamp = (new Date()).getTime();
     }
 
-    public APIResponse(IResponseCode responseCode, Long count, Object data) {
-        this(responseCode);
-        this.data = data;
-        this.count = count;
-        this.timestamp = (new Date()).getTime();
-    }
-
     public APIResponse(IResponseCode responseCode, String msg, long count, Object data) {
-        this(responseCode);
+        this.code=responseCode.getCode();
         this.trace = msg;
         this.count = count;
         this.data = data;
@@ -75,7 +67,17 @@ public class APIResponse {
         this.msg = msg;
     }
 
+    public APIResponse(int code, String msg, Object data) {
+        this.code=code;
+        this.msg=msg;
+        this.data=data;
+    }
+
     public APIResponse fail(){
         return new APIResponse(403,"参数校验异常");
+    }
+
+    public static APIResponse fail(ResponseCode responseCode){
+        return new APIResponse(responseCode.getCode(),responseCode.getMsg());
     }
 }

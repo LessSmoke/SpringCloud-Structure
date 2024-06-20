@@ -44,4 +44,6 @@ public interface SecurityConstants {
      * JWT 黑名单TOKEN前缀
      */
     String TOKEN_BLACKLIST_PREFIX = "auth:token:blacklist:";
+
+    String AUTHORITY_PREFIX = "ROLE_";
 }

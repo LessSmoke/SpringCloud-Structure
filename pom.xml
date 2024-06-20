@@ -12,6 +12,7 @@
         <module>common</module>
         <module>gateway</module>
         <module>auth</module>
+        <module>bussiness</module>
     </modules>
 
     <properties>
@@ -26,7 +27,26 @@
         <knife4j.version>4.3.0</knife4j.version>
         <druid.version>1.1.10</druid.version>
         <project.version>1.0.0</project.version>
+        <hutool.version>5.5.8</hutool.version>
+        <fastjson.version>1.2.75</fastjson.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>

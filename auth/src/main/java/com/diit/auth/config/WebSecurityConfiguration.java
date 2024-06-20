@@ -15,6 +15,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ *@description: 安全认证配置类
+ *@author:     yujunxin
+ *@createTime: 2024/6/20 9:04
+ *@version:     1.0
+ */
 @Configuration
 @Slf4j
 @EnableWebSecurity
@@ -45,6 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @throws Exception
      */
     @Override
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
