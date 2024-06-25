@@ -1,8 +1,13 @@
 package com.diit.auth.security.details.user;
 
+import com.diit.admin.starter.dto.UserAuthDTO;
+import com.diit.admin.starter.feign.UserFeignClient;
 import com.diit.auth.common.enums.PasswordEncoderTypeEnum;
+import com.diit.common.base.response.APIResponse;
+import com.diit.common.base.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -15,11 +20,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service("SysUSerDetailsServiceImpl")
 @Slf4j
 @RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements UserDetailsService {
+
+
+    private final UserFeignClient userFeignClient;
 
     /**
      * 获取用户信息方法
@@ -30,7 +39,22 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // todo 后面需要修改成从管理端获取用户信息
-        SysUserDetails userDetails = loadUser(username);
+        // 后面从管理端获取用户信息
+        APIResponse result = userFeignClient.getUserByUsername(username);
+        SysUserDetails userDetails = null;
+        if (ResponseCode.SUCCESS.equals(result.getCode())) {
+            UserAuthDTO user = (UserAuthDTO) result.getData();
+            if (null != user) {
+                userDetails = SysUserDetails.builder()
+                        .userId(user.getUserId())
+                        .username(user.getUsername())
+                        .authorities(handleRoles(user.getRoles()))
+                        .enabled(user.getStatus() == 1)
+                        .password(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + user.getPassword())
+                        .build();
+            }
+        }
+//        SysUserDetails userDetails = loadUser(username);
         if(!userDetails.isEnabled()){
             throw new DisabledException("该用户已被禁用！");
         }else if(!userDetails.isAccountNonExpired()){
@@ -54,5 +78,13 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
                 .enabled(true)
                 .authorities(authorities)
                 .password(PasswordEncoderTypeEnum.BCRYPT.getPrefix() + new BCryptPasswordEncoder().encode("123456")).build();
+    }
+
+    private Collection<SimpleGrantedAuthority> handleRoles(List<String> roles) {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
     }
 }

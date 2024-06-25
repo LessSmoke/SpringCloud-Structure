@@ -12,7 +12,7 @@
         <module>common</module>
         <module>gateway</module>
         <module>auth</module>
-        <module>bussiness</module>
+        <module>admin</module>
     </modules>
 
     <properties>
