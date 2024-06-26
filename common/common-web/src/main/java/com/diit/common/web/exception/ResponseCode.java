@@ -4,15 +4,17 @@ import com.diit.common.base.response.IResponseCode;
 
 public enum ResponseCode implements IResponseCode {
 
-    FAIL("403", "失败");
+    MethodArgumentNotValidException(403, "失败"),
+    FAIL(500,"失败");
 
+
+    private Integer code;
     private String msg;
 
-    private String code;
 
-    ResponseCode(String msg, String code) {
-        this.msg = msg;
+    ResponseCode(Integer code,String msg ) {
         this.code = code;
+        this.msg = msg;
     }
 
     @Override

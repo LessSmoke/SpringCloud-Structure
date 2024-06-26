@@ -1,4 +1,4 @@
-package com.diit.auth;
+package com.diit.auth.web;
 
 import com.diit.common.base.response.APIResponse;
 import com.nimbusds.jose.jwk.JWK;

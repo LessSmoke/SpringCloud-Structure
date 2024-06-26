@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 public class APIResponse {
 
-    private int code;
+    private Integer code;
 
     private String msg;
 
@@ -75,6 +75,10 @@ public class APIResponse {
 
     public APIResponse fail(){
         return new APIResponse(403,"参数校验异常");
+    }
+
+    public APIResponse fail(Exception ex){
+        return new APIResponse(500,ex.getMessage());
     }
 
     public static APIResponse fail(ResponseCode responseCode){

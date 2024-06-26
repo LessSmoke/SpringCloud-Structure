@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.support.RequestContext;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 
 
@@ -36,7 +33,7 @@ public class FeignConfiguration {
     }
 
     /**
-     * 覆写拦截器，再feign发送请求前取出原来的header并转发
+     * 覆写拦截器，在feign发送请求前取出原来的header并转发
      * @return 拦截器
      */
 

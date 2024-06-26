@@ -19,12 +19,18 @@ import java.util.Map;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-//    @ExceptionHandler(RuntimeException.class)
-//    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-//        Map<String, Object> body = new HashMap<>();
-//        body.put("message", ex.getMessage());
-//        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+
+    /**
+     * 全局异常拦截 一般异常
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public final APIResponse handleAllExceptions(Exception ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", ex.getMessage());
+        return new APIResponse().fail(ex);
+    }
 
     /**
      * 全局异常处理器
@@ -35,6 +41,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public APIResponse handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         log.error("非法参数异常，异常原因: {}",ex.getMessage(),ex);
-        return new APIResponse(ResponseCode.FAIL,ex.getMessage());
+        return new APIResponse(ResponseCode.MethodArgumentNotValidException,ex.getMessage());
     }
 }

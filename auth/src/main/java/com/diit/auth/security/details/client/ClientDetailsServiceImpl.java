@@ -1,31 +1,43 @@
 package com.diit.auth.security.details.client;
 
+import com.diit.admin.starter.dto.OAuth2ClientDTO;
+import com.diit.admin.starter.feign.OAuthClientFeignClient;
 import com.diit.auth.common.enums.PasswordEncoderTypeEnum;
+import com.diit.common.base.response.APIResponse;
+import com.diit.common.base.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 
 @Service("ClientDetailsServiceImpl")
 @RequiredArgsConstructor
 public class ClientDetailsServiceImpl implements ClientDetailsService {
+
+    private final OAuthClientFeignClient oAuthClientFeignClient;
     @Override
-    public ClientDetails loadClientByClientId(String s) throws ClientRegistrationException {
-        // todo 实际上这里应该通过Feign接口从管理端获取，就这里目前写死
+    public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+        // 实际上这里应该通过Feign接口从管理端获取
+        APIResponse result = oAuthClientFeignClient.getOAuth2ClientById(clientId);
         // 授权模式password-密码模式,client_credentials,refresh_token-刷新token,authorization_code-授权码模式
-        BaseClientDetails clientDetails = new BaseClientDetails(
-                "admin",
-                "",
-                "all",
-                "password,client_credentials,refresh_token,authorization_code",
-                "",
-                "http://www.baidu.com"
-        );
-        clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + "123456");
-        clientDetails.setAccessTokenValiditySeconds(3600); // 设置token有效时间
-        clientDetails.setRefreshTokenValiditySeconds(36000000); // 设置token刷新后的有效时间
-        return clientDetails;
+        if (ResponseCode.SUCCESS.getCode()==200) {
+            OAuth2ClientDTO client = (OAuth2ClientDTO) result.getData();
+            BaseClientDetails clientDetails = new BaseClientDetails(
+                    client.getClientId(),
+                    client.getResourceIds(),
+                    client.getScope(),
+                    client.getAuthorizedGrantTypes(),
+                    client.getAuthorities(),
+                    client.getWebServerRedirectUri());
+            clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + client.getClientSecret());
+            clientDetails.setAccessTokenValiditySeconds(client.getAccessTokenValidity());
+            clientDetails.setRefreshTokenValiditySeconds(client.getRefreshTokenValidity());
+            return clientDetails;
+        } else {
+            throw new NoSuchClientException(result.getMsg());
+        }
     }
 }

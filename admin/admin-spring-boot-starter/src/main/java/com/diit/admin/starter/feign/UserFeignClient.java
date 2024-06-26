@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserFeignClient {
 
     @GetMapping("/api/v1/users/username/{username}")
-    APIResponse getUserByUsername(@PathVariable String username);
+    APIResponse getUserByUsername(@PathVariable("username") String username);
 }

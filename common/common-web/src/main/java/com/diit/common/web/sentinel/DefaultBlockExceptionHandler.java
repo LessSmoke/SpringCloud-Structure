@@ -32,10 +32,10 @@ public class DefaultBlockExceptionHandler implements BlockExceptionHandler {
         // 流控
         if (e instanceof FlowException) {
             objectMapper.writeValue(response.getWriter(), APIResponse.fail(ResponseCode.FLOW_LIMITING));
-            // 降级
+        // 降级
         } else if (e instanceof DegradeException) {
             objectMapper.writeValue(response.getWriter(), APIResponse.fail(ResponseCode.DEGRADATION));
-            // 未授权
+        // 未授权
         } else if (e instanceof AuthorityException) {
             objectMapper.writeValue(response.getWriter(), APIResponse.fail(ResponseCode.SERVICE_NO_AUTHORITY));
         }

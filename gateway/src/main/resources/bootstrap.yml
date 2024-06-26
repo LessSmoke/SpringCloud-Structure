@@ -1,42 +1,18 @@
-# 服务端口
 server:
   port: 9900
 
 spring:
   application:
-    # 服务名称
     name: diit-gateway
   cloud:
     nacos:
+      # 注册中心
       discovery:
-        server-addr: 192.9.30.138:8848
+        server-addr: 192.9.30.139:8848
+      # 配置中心
       config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr} #Nacos作为配置中心地址
-        file-extension: yaml #指定yaml格式的配置
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
         shared-configs[0]:
           data-id: diit-common.yaml
           refresh: true
-    gateway:
-      routes: # 网关路由配置
-        - id: service-tool # 路由ID，自定义填写，唯一即可
-          # uri 有两种配置方法，一种 http ，一种 lb:服务名称
-          # uri: http://127.0.0.1:18088/  # 路由目标地址
-          uri: lb://service-tool # 路由的目标地址 lb 就是负载均衡，后边跟服务名称
-          predicates: #路由断言 ，白话就是判断请求符不符合路由规则条件
-            - Path=/tool/** # 这个是按照路径匹配，只要以 /tool/ 开头就符合条件
-
-knife4j:
-  gateway:
-    # 第一个配置，开启gateway聚合组件
-    enabled: true
-    # 第二行配置，设置聚合模式采用discover服务发现的模式
-    strategy: discover
-    # 服务发现模式的配置
-    discover:
-      # 第三行配置，开启discover模式
-      enabled: true
-      # 聚合所有子服务(swagger2规范)，子服务是3规范则替换为openapi3
-      version: openapi3
-      # 需要排除的微服务(eg:网关服务)
-      excluded-services:
-        - gateway-service

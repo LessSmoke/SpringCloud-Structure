@@ -13,7 +13,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**　
- * 这是一个过滤器，用来添加请求头参数
+ * 这是一个过滤器，用来添加请求头参数，用于配合Sentenial知晓调用方来源
+ * 所有的业务都是通过网关来调用接口，通过网关是无法知道applicationName的，所以需要添加
  * @author yjxbz
  */
 @Component

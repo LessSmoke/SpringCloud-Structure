@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface OAuthClientFeignClient {
 
     @GetMapping("/api/oauth-clients/getOAuth2ClientById")
-    APIResponse getOAuth2ClientById(@RequestParam String clientId);
+    APIResponse getOAuth2ClientById(@RequestParam(value = "clientId") String clientId);
 }
